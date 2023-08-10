@@ -4,11 +4,11 @@
         <div class="w-full sm:w-7/12">
             <span class="flex flex-wrap justify-around">
                 <div name="logo" class="w-5/12 flex">
-                    <img style="width: 300px;" src="../../img/TardiniLogo.svg" />
+                    <img src="../../img/TardiniLogo.svg" />
                 </div>
                 <div
                     class="w-5/12 flex uppercase tracking-wide text-gray-700 font-bold flex-wrap justify-center content-end text-center">
-                    <h2>WEB TRACKING</h2>
+                    <h2>WEB TRACKING utlimate</h2>
                 </div>
             </span>
             <div class="p-8 bg-white rounded shadow-xl">
@@ -38,6 +38,7 @@
 
 <script>
 import Loading from '../components/Loading.vue';
+import axios from 'axios';
 
 export default {
     components: {

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+
+// Rotte di autenticazione
+Route::post('/api/login', [AuthController::class, 'login']);
+Route::post('/api/logout', [AuthController::class, 'logout']);
+
+// Rotta protetta per restituire l'utente autenticato
+Route::middleware('auth:sanctum')->get('/api/user', function (Request $request) {
     return $request->user();
 });
