@@ -18,18 +18,24 @@
                             <label class="block text-sm text-gray-00" for="username" value="username"></label>
                             <input class="w-full px-2 py-2 text-gray-700 bg-gray-100 rounded" id="email" type="text"
                                 name="username" placeholder="username" v-model="username" required autofocus />
+                            <span v-if="submitted && !username" class="text-red-600">Inserisci username.</span>
+
                         </div>
                         <div class="mt-4">
                             <label class="block text-sm text-gray-00" for="password" value="password"></label>
                             <input class="w-full px-2 py-2 text-gray-700 bg-gray-100 rounded" id="password" type="password"
                                 placeholder="password" name="password" v-model="password" required
                                 autocomplete="current-password" />
+                            <span v-if="submitted && !password" class="text-red-600">Inserisci password.</span>
+
                         </div>
                         <div class="flex items-center justify-end gap-3 mt-4">
-                            <button @click.prevent="register" class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
+                            <router-link to="register"
+                                class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
                                 Registrati
-                            </button>
-                            <button @click.prevent="login" class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
+                            </router-link>
+                            <button @click.prevent="login"
+                                class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
                                 Log in
                             </button>
                         </div>
@@ -54,19 +60,33 @@ export default {
             username: '',
             password: '',
             loading: false,
-            isLogin:true
+            submitted: false,
+
         }
     },
     methods: {
-        login() {
-            this.$router.push({ name: 'dashboard' });
+        async login() {
+            this.submitted = true;
+
+            if (!this.username || !this.password) {
+                return; 
+            }
+
+            this.loading = true;
+
+            try {
+                const response = await axios.post('/api/login', {
+                    email: this.username,
+                    password: this.password
+                });
+                const token = response.data.token;
+                this.$router.push({ name: 'dashboard' });
+            } catch (error) {
+                console.error("Error during login:", error);
+            } finally {
+                this.loading = false;
+            }
         },
-        register(){
-
-            this.$router.push({ name: 'register' });
-
-        }
-       
     }
 }
 </script>

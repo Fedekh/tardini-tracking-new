@@ -17,6 +17,10 @@ class AuthController extends Controller
     {
         // Validazione dei dati del modulo di registrazione...
 
+        $existingUser = User::where('email', $request->email)->first();
+        if ($existingUser) {
+            return response()->json(['error' => 'Email già in uso'], 400);
+        }
         $user = new User([
             'name' => $request->name,
             'lastname' => $request->lastname,
@@ -42,16 +46,15 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'email' => ['Credenziali errate'],
             ]);
         }
-
 
         $token = $user->createToken('auth-token')->accessToken;
 
         return response()->json(['token' => $token]);
     }
-    
+
     public function logout()
     {
         Auth::logout();
