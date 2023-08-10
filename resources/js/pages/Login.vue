@@ -15,7 +15,7 @@
                 <div class="p-8 bg-white rounded shadow-xl">
                     <form>
                         <div class="mt-4">
-                            <label class="block text-sm text-gray-00" for="Username" value="username"></label>
+                            <label class="block text-sm text-gray-00" for="username" value="username"></label>
                             <input class="w-full px-2 py-2 text-gray-700 bg-gray-100 rounded" id="email" type="text"
                                 name="username" placeholder="username" v-model="username" required autofocus />
                         </div>
