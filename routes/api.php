@@ -22,10 +22,8 @@ use App\Http\Controllers\Api\AuthController;
 
 
 // Rotte di autenticazione
-Route::post('/api/login', [AuthController::class, 'login']);
-Route::post('/api/logout', [AuthController::class, 'logout']);
-
-// Rotta protetta per restituire l'utente autenticato
-Route::middleware('auth:sanctum')->get('/api/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });
