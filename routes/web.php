@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/{pathMatch}', function(){
-//     return view('welcome');
-// })->where('patchMatch', '.*');
+Route::get('/{pathMatch}', function(){
+    return view('welcome');
+})->where('patchMatch', '.*');

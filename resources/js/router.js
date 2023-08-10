@@ -1,29 +1,25 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-import Login from './pages/Login.vue';
-import Dashboard from './pages/Dashboard.vue';
-
+import { createRouter, createWebHistory } from "vue-router";
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes: [
         {
             path: '/login',
             name: 'login',
-            component: Login
+            component: () => import('./pages/Login.vue')
+
         },
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: Dashboard
+            component: () => import('./pages/Dashboard.vue')
+
         },
-        {
-            path: '/:pathMatch(.*)*',
-            name: 'pippo',
-            component: () => import('./pages/Pippo.vue')
-        }
+        // {
+        //     path: '/:pathMatch(.*)*',
+        //     name: 'fallback',
+        //     component: () => import('./pages/Fallback.vue')
+        // }
     ]
 })
-
-
-
 
 export { router };
