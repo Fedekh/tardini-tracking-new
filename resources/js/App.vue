@@ -1,17 +1,12 @@
 <template>
-    <div>
-        <router-view /> 
-    </div>
+    <router-view />
 </template>
 
 <script >
-export default{
-    mounted(){
-        setTimeout(() => {
-            this.$router.push({ name: 'login' });
-        }, 500);
+export default {
+    mounted() {
+        this.$router.push({ name: 'login' });
     }
 }
-
 </script>
 

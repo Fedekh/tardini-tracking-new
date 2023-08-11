@@ -82,7 +82,7 @@
                             class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
                             Registrati
                         </button>
-                        <router-link to="login"
+                        <router-link :to="{name: 'login'}"
                             class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
                             Log in
                         </router-link>

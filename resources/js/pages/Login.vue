@@ -30,7 +30,7 @@
 
                         </div>
                         <div class="flex items-center justify-end gap-3 mt-4">
-                            <router-link to="register"
+                            <router-link :to="{name: 'register'}"
                                 class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
                                 Registrati
                             </router-link>

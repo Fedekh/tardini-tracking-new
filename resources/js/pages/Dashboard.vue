@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar />
+        <HeaderApp/>
         <Loading v-if="loading" />
         <section v-else>
             <h3>sono dashboard</h3>
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue';
+import HeaderApp from '../components/HeaderApp.vue';
 import Loading from '../components/Loading.vue';
 export default {
     components: {
-        Navbar,
-        Loading
+        Loading,
+        HeaderApp
     },
     data() {
         return {
