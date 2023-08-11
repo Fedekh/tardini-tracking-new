@@ -114,7 +114,7 @@ export default {
             selectedLevel: '',
             submitted: false,
             loading: false,
-            apiRegister: '/api/register'
+            apiRegister: 'api/auth/register'
         }
     },
     computed: {
@@ -153,7 +153,7 @@ export default {
                     });
                     console.log(response);
                     if (response.status === 200) {
-                        console.log('successoooooo');
+                        console.log('Ti sei registrato');
                         this.$router.push({ name: 'login' });
                     } else {
                         console.log("Registration failed:", response.data.error);

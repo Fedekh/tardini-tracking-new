@@ -16,7 +16,7 @@
                     <form>
                         <div class="mt-4">
                             <label class="block text-sm text-gray-00" for="username" value="username"></label>
-                            <input class="w-full px-2 py-2 text-gray-700 bg-gray-100 rounded" id="email" type="text"
+                            <input class="w-full px-2 py-2 text-gray-700 bg-gray-100 rounded" id="username" type="text"
                                 name="username" placeholder="username" v-model="username" required autofocus />
                             <span v-if="submitted && !username" class="text-red-600">Inserisci username.</span>
 
@@ -61,28 +61,30 @@ export default {
             password: '',
             loading: false,
             submitted: false,
+            apiLogin: 'api/auth/login'
+
 
         }
     },
     methods: {
         async login() {
             this.submitted = true;
-
             if (!this.username || !this.password) {
-                return; 
+                return;
             }
-
             this.loading = true;
-
             try {
-                const response = await axios.post('/api/login', {
-                    email: this.username,
+                const response = await axios.post(`${this.apiLogin}`, {
+                    username: this.username,
                     password: this.password
                 });
+                console.log(response);
                 const token = response.data.token;
+                localStorage.setItem('token', token);
+                console.log('Log con successo');
                 this.$router.push({ name: 'dashboard' });
             } catch (error) {
-                console.error("Error during login:", error);
+                console.log("Error during login:", error);
             } finally {
                 this.loading = false;
             }

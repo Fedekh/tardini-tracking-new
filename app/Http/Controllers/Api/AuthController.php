@@ -40,22 +40,17 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Validazione dei dati del modulo di login...
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['Credenziali errate'],
-            ]);
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            $user = Auth::user();
+            $token = $user->createToken('auth-token')->accessToken;
+            return response()->json(['token' => $token]);
+        } else {
+            return response()->json(['error' => 'Credenziali errate'], 401);
         }
-
-        $token = $user->createToken('auth-token')->accessToken;
-
-        return response()->json(['token' => $token]);
     }
 
-    public function logout()
+
+    public function logout(Request $request)
     {
         Auth::logout();
         return response()->json(['message' => 'Logged out'], 200);
