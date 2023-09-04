@@ -66,7 +66,6 @@ export default {
             submitted: false,
             errorMessage: ''
 
-
         }
     },
 
@@ -83,15 +82,17 @@ export default {
                 this.submitted = false; 
             }
 
+            if(authStore.isAuthenticated){
+                this.$router.push({ name: 'dashboard' });
+                this.loading = false;
+            }
+
             if (authStore.error) {
                 this.errorMessage = authStore.error.error
                 this.loading = false;
                 this.username = '';
                 this.password = '';
-            } else {
-                this.errorMessage = '';
-                this.$router.push({ name: 'dashboard' });
-            }
+            } 
         },
     }
 }
