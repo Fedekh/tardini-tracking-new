@@ -30,7 +30,7 @@
 
                         </div>
                         <div class="flex items-center justify-end gap-3 mt-4">
-                            <router-link :to="{name: 'register'}"
+                            <router-link :to="{ name: 'register' }"
                                 class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
                                 Registrati
                             </router-link>
@@ -49,7 +49,8 @@
 
 <script>
 import Loading from '../components/Loading.vue';
-import axios from 'axios';
+import { useAuthStore } from '../auth.js';
+// import axios from 'axios';
 
 export default {
     components: {
@@ -61,34 +62,50 @@ export default {
             password: '',
             loading: false,
             submitted: false,
-            apiLogin: 'api/auth/login'
+            // apiLogin: 'api/auth/login'
 
 
         }
     },
     methods: {
-        async login() {
+        // async login() {
+        //     this.submitted = true;
+        //     if (!this.username || !this.password) {
+        //         return;
+        //     }
+        //     this.loading = true;
+        //     try {
+        //         const response = await axios.post(`${this.apiLogin}`, {
+        //             username: this.username,
+        //             password: this.password
+        //         });
+        //         console.log(response);
+        //         const token = response.data.token;
+        //         localStorage.setItem('token', token);
+        //         console.log('Log con successo');
+        //         this.$router.push({ name: 'dashboard' });
+        //     } catch (error) {
+        //         console.log("Error during login:", error);
+        //     } finally {
+        //     }
+        // },
+        login() {
+            const authStore = useAuthStore();
+            this.loading = false;
             this.submitted = true;
+
             if (!this.username || !this.password) {
                 return;
             }
-            this.loading = true;
-            try {
-                const response = await axios.post(`${this.apiLogin}`, {
-                    username: this.username,
-                    password: this.password
-                });
-                console.log(response);
-                const token = response.data.token;
-                localStorage.setItem('token', token);
-                console.log('Log con successo');
-                this.$router.push({ name: 'dashboard' });
-            } catch (error) {
-                console.log("Error during login:", error);
-            } finally {
-                this.loading = false;
-            }
+            authStore.login({ username: this.username, password: this.password });
+            this.$router.push({ name: 'dashboard' });
+            this.loading = false;
+
         },
+        // logout() {
+        //     const authStore = useAuthStore();
+        //     authStore.logout();
+        // },
     }
 }
 </script>

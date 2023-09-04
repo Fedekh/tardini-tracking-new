@@ -20,11 +20,6 @@ const router = createRouter({
             component: () => import('./pages/Dashboard.vue')
 
         },
-        // {
-        //     path: '/:pathMatch(.*)*',
-        //     name: 'fallback',
-        //     component: () => import('./pages/Fallback.vue')
-        // }
     ]
 })
 
