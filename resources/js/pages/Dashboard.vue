@@ -27,7 +27,6 @@ export default {
     data() {
         return {
             loading: false,
-            // apiLogout: 'api/auth/logout'
         }
     },
     computed: {
@@ -36,30 +35,6 @@ export default {
             console.log(authStore.user.username);
             return authStore.user.username ? authStore.user.username : 'Nessun utente loggato';
         },
-    },
-
-    methods: {
-        async logout() {
-            const authStore = useAuthStore();
-            this.loading = true;
-            authStore.logout();
-            this.$router.push({ name: 'login' });
-            this.loading = false;
-            // try {
-            //     const token = localStorage.getItem('token');
-            //     await axios.post(`${this.apiLogout}`, {}, {
-            //         headers: {
-            //             'Authorization': `Bearer ${token}`
-            //         }
-            //     });
-            //     localStorage.removeItem('token');
-            //     console.log('Logout con successo');
-            //     this.$router.push({ name: 'login' });
-            // } catch (error) {
-            //     console.error("Errore durante il logout:", error);
-            // }
-        }
-
     }
 }
 </script>

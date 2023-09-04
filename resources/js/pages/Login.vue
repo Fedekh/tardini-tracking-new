@@ -17,7 +17,8 @@
                         <div class="mt-4">
                             <label class="block text-sm text-gray-00" for="username" value="username"></label>
                             <input class="w-full px-2 py-2 text-gray-700 bg-gray-100 rounded" id="username" type="text"
-                                name="username" placeholder="username" v-model="username" required autofocus autocomplete="username"/>
+                                name="username" placeholder="username" v-model="username" required autofocus
+                                autocomplete="username" />
                             <span v-if="(submitted && !username)" class="text-red-600">Inserisci username.</span>
 
                         </div>
@@ -40,7 +41,7 @@
                             </button>
                         </div>
                     </form>
-                    <h2 v-if="errorMessage">{{ errorMessage }}</h2>
+                    <h2 class="text-red-600" v-if="errorMessage">{{ errorMessage }}</h2>
                 </div>
             </div>
 
@@ -76,21 +77,21 @@ export default {
             this.errorMessage = ''
             await authStore.login({ username: this.username, password: this.password });
 
-            if(!this.username || !this.password){
-                 this.submitted = true
-             }
+            if (!this.username || !this.password) {
+                this.submitted = true;
+            } else {
+                this.submitted = false; 
+            }
 
-            // gestione credenziali errate
             if (authStore.error) {
                 this.errorMessage = authStore.error.error
-                // this.submitted = false;
+                this.loading = false;
                 this.username = '';
                 this.password = '';
             } else {
                 this.errorMessage = '';
                 this.$router.push({ name: 'dashboard' });
             }
-            this.loading = false;
         },
     }
 }
