@@ -2,12 +2,16 @@
     <div>
         <HeaderApp />
         <Loading v-if="loading" />
-        <section v-else>
+        <section v-else class="my-4">
             <h3>sono dashboard</h3>
             <h4>loggato come : {{ username }}</h4>
             <button @click="logout"
                 class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">Logout</button>
         </section>
+        <!-- <router-link :to="{ name: 'login' }"
+            class="px-4 my-5 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
+            torna in login
+        </router-link> -->
     </div>
 </template>
 
@@ -29,8 +33,8 @@ export default {
     computed: {
         username() {
             const authStore = useAuthStore();
-            console.log(authStore.user);
-            return authStore.user ? authStore.user : 'Nessun utente loggato';
+            console.log(authStore.user.username);
+            return authStore.user.username ? authStore.user.username : 'Nessun utente loggato';
         },
     },
 

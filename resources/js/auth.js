@@ -7,7 +7,8 @@ export const useAuthStore = defineStore({
     isAuthenticated: false,
     user: null,
     apiLogin: 'api/auth/login',
-    apiLogout: 'api/auth/logout'
+    apiLogout: 'api/auth/logout',
+    error:null
 
 
   }),
@@ -29,11 +30,11 @@ export const useAuthStore = defineStore({
         this.isAuthenticated = true;
         console.log('Login avvenuto con successo.', this.user.username);
       } catch (error) {
-        console.log('Errore durante il login:', error.response.data);
+        console.log('Errore durante il login:', error.response.data.error);
+        this.error = error.response.data;
         this.isAuthenticated = false;
         
       } finally {
-        this.user = username;
         console.log('questo è finaly');
       }
     },
@@ -49,8 +50,9 @@ export const useAuthStore = defineStore({
           console.log('Logout con successo');
           this.isAuthenticated = false;
           this.user = null;
-        } catch (error) {
-          console.error("Errore durante il logout:", error);
+        } catch (e) {
+            this.error = e
+          console.log("Errore durante il logout:", e);
         }
       }
   },

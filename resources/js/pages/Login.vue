@@ -17,8 +17,8 @@
                         <div class="mt-4">
                             <label class="block text-sm text-gray-00" for="username" value="username"></label>
                             <input class="w-full px-2 py-2 text-gray-700 bg-gray-100 rounded" id="username" type="text"
-                                name="username" placeholder="username" v-model="username" required autofocus />
-                            <span v-if="submitted && !username" class="text-red-600">Inserisci username.</span>
+                                name="username" placeholder="username" v-model="username" required autofocus autocomplete="username"/>
+                            <span v-if="(submitted && !username)" class="text-red-600">Inserisci username.</span>
 
                         </div>
                         <div class="mt-4">
@@ -26,7 +26,7 @@
                             <input class="w-full px-2 py-2 text-gray-700 bg-gray-100 rounded" id="password" type="password"
                                 placeholder="password" name="password" v-model="password" required
                                 autocomplete="current-password" />
-                            <span v-if="submitted && !password" class="text-red-600">Inserisci password.</span>
+                            <span v-if="(submitted && !password)" class="text-red-600">Inserisci password.</span>
 
                         </div>
                         <div class="flex items-center justify-end gap-3 mt-4">
@@ -40,6 +40,7 @@
                             </button>
                         </div>
                     </form>
+                    <h2 v-if="errorMessage">{{ errorMessage }}</h2>
                 </div>
             </div>
 
@@ -62,50 +63,35 @@ export default {
             password: '',
             loading: false,
             submitted: false,
-            // apiLogin: 'api/auth/login'
+            errorMessage: ''
 
 
         }
     },
+
     methods: {
-        // async login() {
-        //     this.submitted = true;
-        //     if (!this.username || !this.password) {
-        //         return;
-        //     }
-        //     this.loading = true;
-        //     try {
-        //         const response = await axios.post(`${this.apiLogin}`, {
-        //             username: this.username,
-        //             password: this.password
-        //         });
-        //         console.log(response);
-        //         const token = response.data.token;
-        //         localStorage.setItem('token', token);
-        //         console.log('Log con successo');
-        //         this.$router.push({ name: 'dashboard' });
-        //     } catch (error) {
-        //         console.log("Error during login:", error);
-        //     } finally {
-        //     }
-        // },
-        login() {
+        async login() {
             const authStore = useAuthStore();
-            this.loading = false;
-            this.submitted = true;
+            this.loading = true;
+            this.errorMessage = ''
+            await authStore.login({ username: this.username, password: this.password });
 
-            if (!this.username || !this.password) {
-                return;
+            if(!this.username || !this.password){
+                 this.submitted = true
+             }
+
+            // gestione credenziali errate
+            if (authStore.error) {
+                this.errorMessage = authStore.error.error
+                // this.submitted = false;
+                this.username = '';
+                this.password = '';
+            } else {
+                this.errorMessage = '';
+                this.$router.push({ name: 'dashboard' });
             }
-            authStore.login({ username: this.username, password: this.password });
-            this.$router.push({ name: 'dashboard' });
             this.loading = false;
-
         },
-        // logout() {
-        //     const authStore = useAuthStore();
-        //     authStore.logout();
-        // },
     }
 }
 </script>
