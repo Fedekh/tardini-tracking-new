@@ -17,15 +17,18 @@
             <div class="block px-4 py-2 text-xs border-b-2 text-gray-400">
                 Manage Account
             </div>
-            <router-link :to="{ name: 'profile' }" class="block px-4 py-2 text-sm text-gray-700 focus:outline-none"
+            <router-link v-if="currentRoute==='/dashboard'" :to="{ name: 'profile' }" class="block px-4 py-2 text-sm text-gray-700 focus:outline-none"
                 role="menuitem" tabindex="-1" id="user-menu-item-0">
                 Profilo
+            </router-link>
+            <router-link v-else :to="{ name: 'dashboard' }" class="block px-4 py-2 text-sm text-gray-700 focus:outline-none"
+                role="menuitem" tabindex="-1" id="user-menu-item-0">
+                Dashboard
             </router-link>
             <button @click="logout"
                 class="px-4 py-1 focus:outline-none text-white font-light tracking-wider bg-button-red rounded">
                 Logout
             </button>
-
         </div>
     </div>
 </template>
@@ -37,26 +40,33 @@ export default {
     data() {
         return {
             username: '',
-            dropMenu: false
+            dropMenu: false,
+            currentRoute:''
         }
     },
     mounted() {
         const authUser = useAuthStore();
         this.username = authUser.user.username;
-
+        authUser.getUrl()
+        this.currentRoute = authUser.currentRoute;
+        console.log(this.currentRoute);
     },
     methods: {
         dropDownMenu() {
             console.log('t ho premuto ');
             this.dropMenu = !this.dropMenu;
         },
-        async logout() {
+     logout() {
             const authStore = useAuthStore();
             this.loading = true;
             authStore.logout();
             this.$router.push({ name: 'login' });
             this.loading = false;
-        }
+        },
+        // getUrl(){
+        //     this.currentRoute = window.location.pathname;
+        //     console.log(this.currentRoute);
+        // }
     }
 }
 </script>

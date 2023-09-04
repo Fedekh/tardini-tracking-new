@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia';
-import axios from 'axios'; 
+import axios from 'axios';
 
 export const useAuthStore = defineStore({
   id: 'auth',
   state: () => ({
-    isAuthenticated: false,
-    user: null,
     apiLogin: 'api/auth/login',
     apiLogout: 'api/auth/logout',
-    error:null
-
+    isAuthenticated: false,
+    user: null,
+    error: null,
+    currentRoute: null
 
   }),
   actions: {
@@ -26,35 +26,38 @@ export const useAuthStore = defineStore({
         console.log(response);
         const token = response.data.token;
         localStorage.setItem('token', token);
-        this.user = { username: username }; 
+        this.user = { username: username };
         this.isAuthenticated = true;
         console.log('Login avvenuto con successo.', this.user.username);
       } catch (error) {
         console.log('Errore durante il login:', error.response.data.error);
         this.error = error.response.data;
         this.isAuthenticated = false;
-        
+
       } finally {
         console.log('questo è finaly');
       }
     },
     async logout() {
-        try {
-          const token = localStorage.getItem('token');
-          await axios.post(this.apiLogout, {}, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          localStorage.removeItem('token');
-          console.log('Logout con successo');
-          this.isAuthenticated = false;
-          this.user = null;
-        } catch (e) {
-            this.error = e
-          console.log("Errore durante il logout:", e);
-        }
+      try {
+        const token = localStorage.getItem('token');
+        await axios.post(this.apiLogout, {}, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        localStorage.removeItem('token');
+        console.log('Logout con successo');
+        this.isAuthenticated = false;
+        this.user = null;
+      } catch (e) {
+        this.error = e
+        console.log("Errore durante il logout:", e);
       }
+    },
+    getUrl(){
+      this.currentRoute = window.location.pathname;
+    }
   },
 });
 

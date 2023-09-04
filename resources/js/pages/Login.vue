@@ -83,8 +83,8 @@ export default {
             }
 
             if(authStore.isAuthenticated){
-                this.$router.push({ name: 'dashboard' });
                 this.loading = false;
+                this.$router.push({ name: 'dashboard' });
             }
 
             if (authStore.error) {
